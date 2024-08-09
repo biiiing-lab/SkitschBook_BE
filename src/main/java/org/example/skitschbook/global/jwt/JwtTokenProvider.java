@@ -36,51 +36,30 @@ public class JwtTokenProvider {
     }
 
 
-    // jwt 검증
-    public boolean validationToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key).build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
-        } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
-        } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
-        } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
-        }
-        return false;
-    }
-
-    // token 생성
-    public String createToken(Authentication authentication) {
-        Date date = new Date();
-        Date expiryDate = new Date(date.getTime() + 1800000); // 30분
-
+    public String generate(String subject, Date expiredAt) {
         return Jwts.builder()
-                .setSubject(authentication.getName())
-                .setIssuedAt(date)
-                .setExpiration(expiryDate)
+                .setSubject(subject)
+                .setExpiration(expiredAt)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
 
-    // 유저 정보 가져오기 (userdetails 활용)
-    public Authentication getAuthentication(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
-        UserDetails user = new User(claims.getSubject(), "", Collections.emptyList());
-
-        return new UsernamePasswordAuthenticationToken(user, "", Collections.emptyList());
+    public String extractSubject(String accessToken) {
+        Claims claims = parseClaims(accessToken);
+        return claims.getSubject();
     }
 
+    private Claims parseClaims(String accessToken) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(accessToken)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
+        }
+    }
 
 
 }
