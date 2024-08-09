@@ -2,6 +2,7 @@ package org.example.skitschbook.users.oauth;
 
 import lombok.RequiredArgsConstructor;
 import org.example.skitschbook.global.jwt.AuthTokens;
+import org.example.skitschbook.users.oauth.common.OauthService;
 import org.example.skitschbook.users.oauth.naver.NaverLoginParams;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

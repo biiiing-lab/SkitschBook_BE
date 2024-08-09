@@ -1,4 +1,4 @@
-package org.example.skitschbook.users.oauth;
+package org.example.skitschbook.users.oauth.common;
 
 public interface OauthInfoResponse {
     String getEmail();

@@ -2,8 +2,8 @@ package org.example.skitschbook.users.oauth.naver;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.skitschbook.users.oauth.OauthLoginParams;
-import org.example.skitschbook.users.oauth.OauthProvider;
+import org.example.skitschbook.users.oauth.common.OauthLoginParams;
+import org.example.skitschbook.users.oauth.common.OauthProvider;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 

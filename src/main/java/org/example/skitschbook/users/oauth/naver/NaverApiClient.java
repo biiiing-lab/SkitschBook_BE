@@ -1,10 +1,10 @@
 package org.example.skitschbook.users.oauth.naver;
 
 import lombok.RequiredArgsConstructor;
-import org.example.skitschbook.users.oauth.OauthApiClient;
-import org.example.skitschbook.users.oauth.OauthInfoResponse;
-import org.example.skitschbook.users.oauth.OauthLoginParams;
-import org.example.skitschbook.users.oauth.OauthProvider;
+import org.example.skitschbook.users.oauth.common.OauthApiClient;
+import org.example.skitschbook.users.oauth.common.OauthInfoResponse;
+import org.example.skitschbook.users.oauth.common.OauthLoginParams;
+import org.example.skitschbook.users.oauth.common.OauthProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

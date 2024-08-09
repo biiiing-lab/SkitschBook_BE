@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.skitschbook.users.oauth.OauthProvider;
+import org.example.skitschbook.users.oauth.common.OauthProvider;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -26,9 +26,14 @@ public class Users {
 
     private String username;
     private String email;
+    private String nickname;
 
     private OauthProvider provider;
 
     @CreationTimestamp
     private LocalDateTime createAt;
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

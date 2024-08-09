@@ -1,6 +1,8 @@
 package org.example.skitschbook.global.config;
 
 import lombok.RequiredArgsConstructor;
+import org.example.skitschbook.global.jwt.JwtAuthorizationFilter;
+import org.example.skitschbook.global.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @Configuration
@@ -17,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CorsConfig corsConfig;
+    private final JwtTokenProvider tokenProvider;
 
     // 패스워드 암호화
     public PasswordEncoder passwordEncoder() {
@@ -35,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/naver").permitAll()
                         .anyRequest().authenticated())
                 .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource())) // cors
+                .addFilterBefore(new JwtAuthorizationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 }

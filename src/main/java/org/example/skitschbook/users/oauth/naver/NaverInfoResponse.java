@@ -3,8 +3,8 @@ package org.example.skitschbook.users.oauth.naver;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import org.example.skitschbook.users.oauth.OauthInfoResponse;
-import org.example.skitschbook.users.oauth.OauthProvider;
+import org.example.skitschbook.users.oauth.common.OauthInfoResponse;
+import org.example.skitschbook.users.oauth.common.OauthProvider;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

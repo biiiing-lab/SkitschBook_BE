@@ -1,9 +1,8 @@
-package org.example.skitschbook.users.oauth;
+package org.example.skitschbook.users.oauth.common;
 
 import lombok.RequiredArgsConstructor;
 import org.example.skitschbook.global.jwt.AuthTokens;
 import org.example.skitschbook.global.jwt.AuthTokensGenerator;
-import org.example.skitschbook.global.jwt.JwtTokenProvider;
 import org.example.skitschbook.users.UserRepository;
 import org.example.skitschbook.users.Users;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,8 @@ public class OauthService {
 
     public AuthTokens login(OauthLoginParams params) {
         OauthInfoResponse oAuthInfoResponse = requestOauthInfoService.request(params);
-        Long memberId = findOrCreateMember(oAuthInfoResponse);
-        return authTokensGenerator.generate(memberId);
+        Long userId = findOrCreateMember(oAuthInfoResponse);
+        return authTokensGenerator.generate(userId);
     }
 
     private Long findOrCreateMember(OauthInfoResponse oAuthInfoResponse) {
