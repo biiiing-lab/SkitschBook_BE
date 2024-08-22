@@ -26,6 +26,10 @@ public class RedisConfig {
         return new MessageListenerAdapter(new RedisSubscriberHandler());
     }
 
+    @Bean
+    public RedisSubscriberHandler redisSubscriberHandler() {
+        return new RedisSubscriberHandler();
+    }
 
     @Bean
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory connectionFactory) {
