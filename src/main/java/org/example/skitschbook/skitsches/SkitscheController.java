@@ -3,6 +3,7 @@ package org.example.skitschbook.skitsches;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.skitschbook.global.dto.StatusResponse;
+import org.example.skitschbook.skitsches.dto.SkitscheReqeust;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -22,10 +23,11 @@ public class SkitscheController {
 
     private final SkitscheService skitscheService;
 
-    // 파일 저장
+    // 파일 실시간 저장
     @PostMapping("/save")
-    public ResponseEntity<StatusResponse> save(@RequestParam("file") MultipartFile file) throws Exception {
-        return skitscheService.save(file);
+    public ResponseEntity<?> save(@RequestBody SkitscheReqeust skitscheReqeust) throws Exception {
+        skitscheService.save(skitscheReqeust);
+        return ResponseEntity.ok().body("실시간 저장 성공");
     }
 
     // 파일 다운로드
