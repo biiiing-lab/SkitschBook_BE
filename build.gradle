@@ -50,6 +50,10 @@ dependencies {
 
     // 랜덤 문자열 값 생성
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 }
 
 tasks.named('test') {
