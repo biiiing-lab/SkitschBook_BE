@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -71,6 +73,18 @@ public class SkitscheService {
         String filepath = skitsche.getFilepath();
         log.info("스키치 다운로드 서비스 작동 완료");
         return Files.readAllBytes(new File(filepath).toPath());
+    }
+
+    public List<byte[]> getAll() throws IOException {
+        log.info("스키치 모두 가져오기 작동");
+        List<Skitsche> skitscheList = skitscheRepository.findAll();
+        List<byte[]> files = new ArrayList<>();
+
+        for(Skitsche skitsche : skitscheList) {
+            byte[] imageData = Files.readAllBytes(new File(skitsche.getFilepath()).toPath());
+            files.add(imageData);
+        }
+        return files;
     }
 
 }
