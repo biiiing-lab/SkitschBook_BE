@@ -26,9 +26,6 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        // 로그 추가 - 어떤 이메일을 찾고 있는지 확인
-        System.out.println("이메일 : " + userDetails.getUsername());
-
         Users user = userRepository.findById(Long.valueOf(userDetails.getUsername())).orElseThrow();
 
         user.updateNickname(nicknameRequest.getNickname());

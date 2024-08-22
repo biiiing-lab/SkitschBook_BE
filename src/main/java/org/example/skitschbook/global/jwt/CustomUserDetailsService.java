@@ -1,6 +1,7 @@
 package org.example.skitschbook.global.jwt;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.skitschbook.users.UserRepository;
 import org.example.skitschbook.users.Users;
 import org.springframework.security.core.userdetails.User;
@@ -9,8 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository usersRepository;
 
@@ -24,8 +28,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails createUserDetails(Users users) {
+        log.info("유저 디테일 설정");
         return User.builder()
                 .username(users.getUserId().toString())
+                .password("")
+                .authorities(Collections.emptyList())
                 .build();
     }
 
