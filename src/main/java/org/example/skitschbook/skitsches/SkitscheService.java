@@ -66,8 +66,10 @@ public class SkitscheService {
     }
 
     public byte[] download(String filename) throws IOException {
+        log.info("스키치 다운로드 서비스 작동");
         Skitsche skitsche = skitscheRepository.findByFilename(filename).orElseThrow();
         String filepath = skitsche.getFilepath();
+        log.info("스키치 다운로드 서비스 작동 완료");
         return Files.readAllBytes(new File(filepath).toPath());
     }
 

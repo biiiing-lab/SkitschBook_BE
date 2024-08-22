@@ -22,13 +22,13 @@ public class SkitscheController {
     // 파일 저장
     @PostMapping("/save")
     public ResponseEntity<StatusResponse> save(@RequestParam("file") MultipartFile file) throws Exception {
-        log.info("스키치 저장 실행");
         return skitscheService.save(file);
     }
 
     // 파일 다운로드
-    @GetMapping("/{filename}")
-    public ResponseEntity<?> download(@PathVariable("filename") String filename) throws IOException {
+    @GetMapping("/{file}")
+    public ResponseEntity<?> download(@PathVariable("file") String filename) throws IOException {
+        log.info("스키치 다운로드 컨트롤러 작동");
         byte[] downloadFile = skitscheService.download(filename);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/png"))
