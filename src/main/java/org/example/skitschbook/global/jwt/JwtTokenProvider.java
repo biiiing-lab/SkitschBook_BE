@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Component
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
 public class JwtTokenProvider {
 
     private Key key;
@@ -82,15 +82,12 @@ public class JwtTokenProvider {
 
     // Jwt 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     public Authentication getAuthentication(String accessToken) {
-        log.info("토큰 복호화 시작");
         // Jwt 토큰 복호화
         Claims claims = parseClaims(accessToken);
 
         // UserDetails 객체를 만들어서 Authentication return
         // UserDetails: interface, User: UserDetails를 구현한 class
-        log.info("유저 디테일 작업");
         UserDetails principal = new User(claims.getSubject(), "", new ArrayList<>());
-        log.info("유저 디테일 성공");
         return new UsernamePasswordAuthenticationToken(principal, "", new ArrayList<>());
     }
 

@@ -26,7 +26,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class SkitscheService {
 
     //  todo 재설정
@@ -72,7 +71,7 @@ public class SkitscheService {
 //    }
 
     @Transactional
-    public void save(SkitscheReqeust reqeust) {
+    public void save(SkitscheReqeust reqeust) throws Exception {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -86,19 +85,21 @@ public class SkitscheService {
                 .build();
 
         skitscheRepository.save(skitsche);
-        redisTemplate.convertAndSend("skitsche", reqeust.getData());
+
+        try {
+            redisTemplate.convertAndSend("skitsche", reqeust.getData());
+        } catch (Exception e) {
+            throw new Exception("Failed to send message to Redis: " + e.getMessage());
+        }
     }
 
     public byte[] download(String filename) throws IOException {
-        log.info("스키치 다운로드 서비스 작동");
         Skitsche skitsche = skitscheRepository.findByFilename(filename).orElseThrow();
         String filepath = skitsche.getFilepath();
-        log.info("스키치 다운로드 서비스 작동 완료");
         return Files.readAllBytes(new File(filepath).toPath());
     }
 
     public List<byte[]> getAll() throws IOException {
-        log.info("스키치 모두 가져오기 작동");
         List<Skitsche> skitscheList = skitscheRepository.findAll();
         List<byte[]> files = new ArrayList<>();
 
