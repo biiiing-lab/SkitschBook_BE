@@ -1,5 +1,7 @@
 package org.example.skitschbook.global.handler;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -11,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
+@RequiredArgsConstructor
 public class SkitscheWebSocketHandler extends TextWebSocketHandler {
 
     private final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());

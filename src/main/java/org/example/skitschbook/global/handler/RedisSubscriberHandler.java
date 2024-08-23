@@ -16,7 +16,7 @@ public class RedisSubscriberHandler implements MessageListener {
         try {
             handler.broadcastMessage(new TextMessage(payload));
         } catch (Exception e) {
-            e.getMessage();
+            e.printStackTrace();
         }
     }
 }
