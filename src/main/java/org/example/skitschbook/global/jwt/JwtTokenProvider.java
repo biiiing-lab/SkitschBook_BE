@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Component
@@ -36,6 +36,31 @@ public class JwtTokenProvider {
     }
 
 
+    public String generate(String subject, Date expiredAt) {
+        return Jwts.builder()
+                .setSubject(subject)
+                .setExpiration(expiredAt)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+    }
+
+    public String extractSubject(String accessToken) {
+        Claims claims = parseClaims(accessToken);
+        return claims.getSubject();
+    }
+
+    private Claims parseClaims(String accessToken) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(accessToken)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
+        }
+    }
+
     // jwt 검증
     public boolean validationToken(String token) {
         try {
@@ -55,32 +80,19 @@ public class JwtTokenProvider {
         return false;
     }
 
-    // token 생성
-    public String createToken(Authentication authentication) {
-        Date date = new Date();
-        Date expiryDate = new Date(date.getTime() + 1800000); // 30분
+    // Jwt 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
+    public Authentication getAuthentication(String accessToken) {
+        log.info("토큰 복호화 시작");
+        // Jwt 토큰 복호화
+        Claims claims = parseClaims(accessToken);
 
-        return Jwts.builder()
-                .setSubject(authentication.getName())
-                .setIssuedAt(date)
-                .setExpiration(expiryDate)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .compact();
+        // UserDetails 객체를 만들어서 Authentication return
+        // UserDetails: interface, User: UserDetails를 구현한 class
+        log.info("유저 디테일 작업");
+        UserDetails principal = new User(claims.getSubject(), "", new ArrayList<>());
+        log.info("유저 디테일 성공");
+        return new UsernamePasswordAuthenticationToken(principal, "", new ArrayList<>());
     }
-
-    // 유저 정보 가져오기 (userdetails 활용)
-    public Authentication getAuthentication(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
-        UserDetails user = new User(claims.getSubject(), "", Collections.emptyList());
-
-        return new UsernamePasswordAuthenticationToken(user, "", Collections.emptyList());
-    }
-
 
 
 }
