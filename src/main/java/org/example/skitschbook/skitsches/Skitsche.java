@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.skitschbook.users.Users;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -29,8 +30,18 @@ public class Skitsche {
     @Lob
     private byte[] fileData;
 
+    // 사용자 범위
+    // 기본값 true : 누구나 할 수 있게 하기
+    // false : 로그인한 사용자만 할 수 있게 하기
+    @ColumnDefault("true")
+    private boolean isLogined;
+
     @ManyToOne
     @JoinColumn(name = "userId")
     Users users; // 작성 유저
+
+    public void updateIsLogined(boolean isLogined) {
+        this.isLogined = isLogined;
+    }
 
 }
