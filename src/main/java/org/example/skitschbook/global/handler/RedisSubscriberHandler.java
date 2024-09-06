@@ -7,14 +7,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 
 @Component
+@RequiredArgsConstructor
 public class RedisSubscriberHandler implements MessageListener {
-    private SkitscheWebSocketHandler handler;
+
+    private SkitscheWebSocketHandler webSocketHandler;
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        String payload = new String(message.getBody());
+        String canvasData = new String(message.getBody());
         try {
-            handler.broadcastMessage(new TextMessage(payload));
+            webSocketHandler.broadcastMessage(new TextMessage(canvasData));
         } catch (Exception e) {
             e.printStackTrace();
         }
