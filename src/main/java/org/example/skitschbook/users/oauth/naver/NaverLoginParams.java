@@ -1,5 +1,6 @@
 package org.example.skitschbook.users.oauth.naver;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.skitschbook.users.oauth.common.OauthLoginParams;
@@ -8,9 +9,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 @Getter
-@NoArgsConstructor
+@AllArgsConstructor
 public class NaverLoginParams implements OauthLoginParams {
-    private String authorizationCode;
+    private String code;
     private String state;
 
     @Override
@@ -21,7 +22,7 @@ public class NaverLoginParams implements OauthLoginParams {
     @Override
     public MultiValueMap<String, String> makeBody() {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("code", authorizationCode);
+        body.add("code", code);
         body.add("state", state);
         return body;
     }
