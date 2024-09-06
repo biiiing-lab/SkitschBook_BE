@@ -30,7 +30,7 @@ public class UserService {
 
         user.updateNickname(nicknameRequest.getNickname());
 
-        return  ResponseEntity.ok(new StatusResponse(HttpStatus.OK.value(), "닉변 성공"));
+        return  ResponseEntity.ok(new StatusResponse(HttpStatus.OK.value(), nicknameRequest.getNickname()));
     }
 
 }
